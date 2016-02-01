@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import mobi.acpm.proxyon.R;
+
 
 public class ProxyOnActivity extends ActionBarActivity {
 

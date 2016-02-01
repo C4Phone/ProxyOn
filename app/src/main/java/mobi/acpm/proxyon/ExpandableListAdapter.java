@@ -14,6 +14,8 @@ import android.widget.TextView;
 import java.util.HashMap;
 import java.util.List;
 
+import mobi.acpm.proxyon.R;
+
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context mContext;

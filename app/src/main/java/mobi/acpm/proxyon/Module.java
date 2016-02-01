@@ -1,5 +1,7 @@
 package mobi.acpm.proxyon;
 
+import android.util.Log;
+
 import java.net.URI;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -24,15 +26,37 @@ public class Module implements IXposedHookLoadPackage {
 
         loadPrefs();
 
+        /*
         if (!loadPackageParam.packageName.equals(sPrefs.getString("package", "")))
             return;
+
+        */
+
+        Log.e(" HACK PROXY ", "HOST = " + sPrefs.getString("host", "null") + ". PORT = " + sPrefs.getString("port", "null"));
+
+        if (sPrefs.getBoolean("switch", false)) {
+            Log.e(" HACK PROXY ", "INJECT:" + loadPackageParam.packageName);
+
+            System.setProperty("proxyHost", sPrefs.getString("host", null));
+            System.setProperty("proxyPort", sPrefs.getString("port", null));
+
+            System.setProperty("http.proxyHost", sPrefs.getString("host", null));
+            System.setProperty("http.proxyPort", sPrefs.getString("port", null));
+
+            System.setProperty("https.proxyHost", sPrefs.getString("host", null));
+            System.setProperty("https.proxyPort", sPrefs.getString("port", null));
+
+            System.setProperty("socksProxyHost", sPrefs.getString("host", null));
+            System.setProperty("socksProxyPort", sPrefs.getString("port", null));
+        }
 
         findAndHookMethod("java.net.ProxySelectorImpl", loadPackageParam.classLoader, "select", URI.class, new XC_MethodHook() {
 
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 
-                if(sPrefs.getBoolean("switch", false)) {
+                if (sPrefs.getBoolean("switch", false)) {
+                    Log.e(" HACK PROXY ", "2nd ! 2nd INJECT:" + loadPackageParam.packageName);
 
                     System.setProperty("proxyHost", sPrefs.getString("host", null));
                     System.setProperty("proxyPort", sPrefs.getString("port", null));
